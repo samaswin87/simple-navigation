@@ -15,9 +15,10 @@ module SimpleNavigation
       self.container = container
       self.key = key
       self.name = name.respond_to?(:call) ? name.call : name
-      self.url =  url.respond_to?(:call) ? url.call : url
+      self.url = url.respond_to?(:call) ? url.call : url
       self.options = opts
 
+      self.url = url.is_a?(Hash) ? nil : self.url
       setup_sub_navigation(options[:items], &sub_nav_block)
     end
 
@@ -96,6 +97,7 @@ module SimpleNavigation
     # Returns true if item has a subnavigation and
     # the sub_navigation is selected
     def selected_by_subnav?
+      return if @highlights_on.nil?
       sub_navigation && sub_navigation.selected?
     end
 

@@ -30,10 +30,17 @@ module SimpleNavigation
       def list_content(item_container)
         item_container.items.map { |item|
           li_options = item.html_options.except(:link)
-          li_content = tag_for(item)
+          added_name = nil
+          if include_parent_menu_icon?(item)
+            added_name = render_parent_menu_icon_for(item)
+          end
+
+          li_content = tag_for(item, added_name)
+
           if include_sub_navigation?(item)
             li_content << render_sub_navigation_for(item)
           end
+
           content_tag(:li, li_content, li_options)
         }.join
       end

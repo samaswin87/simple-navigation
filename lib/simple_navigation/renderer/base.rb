@@ -38,6 +38,15 @@ module SimpleNavigation
         item.sub_navigation.render(options)
       end
 
+      def include_parent_menu_icon?(item)
+        item.parent_menu.present?
+      end
+
+      def render_parent_menu_icon_for(item)
+        i_content = content_tag(:i, '', {class: item.parent_menu[:icon_class]})
+        content_tag(:span, i_content, class: item.parent_menu[:class])
+      end
+
       # Renders the specified ItemContainer to HTML.
       #
       # When implementing a renderer, please consider to call
@@ -73,11 +82,12 @@ module SimpleNavigation
 
       # determine and return link or static content depending on
       # item/renderer conditions.
-      def tag_for(item)
+      def tag_for(item, added_name = nil)
         if suppress_link?(item)
           content_tag('span', item.name, link_options_for(item).except(:method))
         else
-          link_to(item.name, item.url, options_for(item))
+          content_name = added_name.present? ? item.name + added_name.to_s : item.name
+          link_to(content_name, item.url, options_for(item))
         end
       end
 

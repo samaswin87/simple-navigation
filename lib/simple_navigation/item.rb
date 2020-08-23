@@ -17,8 +17,6 @@ module SimpleNavigation
       self.name = name.respond_to?(:call) ? name.call : name
       self.url = url.respond_to?(:call) ? url.call : url
       self.options = opts
-
-      self.url = url.is_a?(Hash) ? nil : self.url
       setup_sub_navigation(options[:items], &sub_nav_block)
     end
 
@@ -92,17 +90,22 @@ module SimpleNavigation
       @link_html_options ||= options[:link_html]
     end
 
+    # Set sub navigation icon
+    def parent_menu
+      @parent_menu ||= options[:parent_menu]
+    end
+
     protected
 
     # Returns true if item has a subnavigation and
     # the sub_navigation is selected
     def selected_by_subnav?
-      return if @highlights_on.nil?
       sub_navigation && sub_navigation.selected?
     end
 
     # Returns true if the item's url matches the request's current url.
     def selected_by_condition?
+      return if @highlights_on.nil?
       highlights_on ? selected_by_highlights_on? : selected_by_autohighlight?
     end
 

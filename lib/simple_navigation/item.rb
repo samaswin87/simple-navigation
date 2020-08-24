@@ -105,7 +105,7 @@ module SimpleNavigation
 
     # Returns true if the item's url matches the request's current url.
     def selected_by_condition?
-      return if @highlights_on.nil?
+      return if highlights_on.nil?
       highlights_on ? selected_by_highlights_on? : selected_by_autohighlight?
     end
 

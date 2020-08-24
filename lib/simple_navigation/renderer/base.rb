@@ -86,7 +86,7 @@ module SimpleNavigation
         if suppress_link?(item)
           content_tag('span', item.name, link_options_for(item).except(:method))
         else
-          content_name = added_name.present? ? item.name + added_name.to_s : item.name
+          content_name = added_name.present? ? (item.name + added_name.to_s) : item.name
           link_to(content_name, item.url, options_for(item))
         end
       end
